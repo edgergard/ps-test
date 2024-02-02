@@ -37,7 +37,7 @@ export const UserCard: React.FC<Props> = ({ user }) => {
           <p className="font-semibold">
             Email:
           </p>
-          <p>{email}</p>
+          <p className="break-all">{email}</p>
         </li>
       </ul>
 

@@ -7,7 +7,11 @@ import { compareQuery } from '../utils';
 import { useSearchParams } from 'react-router-dom';
 import classnames from 'classnames';
 
-function getPreparedUsers(users: User[], query: string, sort: SortType) {
+function getPreparedUsers(
+  users: User[],
+  query: string,
+  sort: SortType,
+) {
   let preparedUsers = [...users];
 
   if (sort) {
@@ -147,58 +151,63 @@ export const UsersPage = () => {
 
   return (
     <section>
-      <h1 
+      <h1
         className="
           page-title text-4xl sm:text-5xl md:text-7xl
           font-semibold mb-4 md:mb-10"
       >
         Users Page
       </h1>
-        <>
-          <div className="flex items-center gap-x-8 mb-4 md:mb-10">
-            <div
-              onClick={handleInputClick}
-              className={classnames(
-                'flex rounded-lg h-10 w-96 px-2 py-2 bg-slate-50', {
-                'outline outline-2 outline-violet-800': isInputFocused,
-              })}
-            >
-              <input
-                type="text"
-                ref={inputRef}
-                value={query}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                onBlur={handleInputBlur}
-                placeholder="Enter username"
-                className="outline-none w-full bg-slate-50"
-              />
-            
-              {query && (
-                <button onClick={handleInputClear}>
-                  <XMarkIcon className="w-6 h-6 text-slate-950" />
-                </button>
-              )}
-            </div>
 
-            <button
-              onClick={handleSortButtonClick}
-              className="
-                user-button px-4 py-2 md:text-lg rounded-xl bg-violet-800
-                text-violet-50 hover:bg-violet-700 transition-all"
-            >
-              {`Sort ${sort || 'None'}`}
-            </button>
+      <>
+        <div 
+          className="
+            flex flex-col md:flex-row md:items-center 
+            gap-x-8 gap-y-4 mb-4 md:mb-10"
+          >
+          <div
+            onClick={handleInputClick}
+            className={classnames(
+              'w-full md:w-96 cursor-text flex rounded-lg h-10 px-2 py-2 bg-slate-50', {
+              'outline outline-2 outline-violet-800': isInputFocused,
+            })}
+          >
+            <input
+              type="text"
+              ref={inputRef}
+              value={query}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              onBlur={handleInputBlur}
+              placeholder="Enter username"
+              className="outline-none w-full bg-slate-50"
+            />
+          
+            {query && (
+              <button onClick={handleInputClear}>
+                <XMarkIcon className="w-6 h-6 text-slate-950" />
+              </button>
+            )}
           </div>
-    
-          {preparedUsers.length ? (
-            <UserList users={preparedUsers} />
-          ) : (
-            <p className="text-2xl font-bold">
-              No such users found
-            </p>
-          )}
-        </>
+
+          <button
+            onClick={handleSortButtonClick}
+            className="
+              user-button px-4 py-2 md:text-lg rounded-xl bg-violet-800
+              text-violet-50 hover:bg-violet-700 transition-all"
+          >
+            {`Sort by username: ${sort || 'None'}`}
+          </button>
+        </div>
+  
+        {preparedUsers.length ? (
+          <UserList users={preparedUsers} />
+        ) : (
+          <p className="text-2xl font-bold">
+            No such users found
+          </p>
+        )}
+      </>
     </section>
   );
 };
