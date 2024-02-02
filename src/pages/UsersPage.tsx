@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/solid';
-import { UserList } from '../components';
+import { Loader, UserList } from '../components';
 import { SortType, User } from '../types';
 import { getUsers } from '../api/api';
 import { compareQuery } from '../utils';
@@ -16,7 +16,6 @@ function getPreparedUsers(users: User[], query: string, sort: SortType) {
         preparedUsers = preparedUsers.sort((a, b) => {
           return b.username.localeCompare(a.username);
         });
-
         break;
       };
 
@@ -24,7 +23,6 @@ function getPreparedUsers(users: User[], query: string, sort: SortType) {
         preparedUsers = preparedUsers.sort((a, b) => {
           return a.username.localeCompare(b.username);
         });
-
         break;
       };
 
@@ -48,6 +46,8 @@ export const UsersPage = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isInputFocused, setIsInputFocused] = useState(false);
+
+  const inputRef = useRef(null);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const sort = (searchParams.get('sort') || '');
@@ -90,6 +90,10 @@ export const UsersPage = () => {
     setSearchParams(params);
   };
 
+  const handleInputClick = () => {
+    inputRef.current.focus();
+  };
+
   const handleSortButtonClick = () => {
     const params = new URLSearchParams(searchParams);
     
@@ -119,7 +123,7 @@ export const UsersPage = () => {
 
   if (isLoading) {
     return (
-      <p>Loader</p>
+      <Loader />
     );
   };
 
@@ -153,6 +157,7 @@ export const UsersPage = () => {
         <>
           <div className="flex items-center gap-x-8 mb-4 md:mb-10">
             <div
+              onClick={handleInputClick}
               className={classnames(
                 'flex rounded-lg h-10 w-96 px-2 py-2 bg-slate-50', {
                 'outline outline-2 outline-violet-800': isInputFocused,
@@ -160,6 +165,7 @@ export const UsersPage = () => {
             >
               <input
                 type="text"
+                ref={inputRef}
                 value={query}
                 onChange={handleInputChange}
                 onFocus={handleInputFocus}

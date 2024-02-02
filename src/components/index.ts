@@ -4,3 +4,4 @@ export * from './OutletContainer';
 export * from './UserCard';
 export * from './UserList';
 export * from './BackButton';
+export * from './Loader';

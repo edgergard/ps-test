@@ -43,7 +43,7 @@ export const UserCard: React.FC<Props> = ({ user }) => {
 
       <div className="buttons flex gap-x-4">
         <Link
-          to={`users/${id}/posts`}
+          to={`/users/${id}/posts`}
           className="
             user-button px-4 py-2 md:text-lg rounded-xl bg-violet-800
             text-violet-50 hover:bg-violet-700 transition-all"
@@ -52,7 +52,7 @@ export const UserCard: React.FC<Props> = ({ user }) => {
         </Link>
 
         <Link
-          to={`users/${id}/albums`}
+          to={`/users/${id}/albums`}
           className="
             user-button px-4 py-2 md:text-lg rounded-xl bg-violet-800
             text-violet-50 hover:bg-violet-700 transition-all"
