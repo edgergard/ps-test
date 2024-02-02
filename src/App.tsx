@@ -1,11 +1,10 @@
 import React from 'react';
+import OutletContainer from './components/OutletContainer';
+import { Outlet } from 'react-router-dom';
 
-function App() {
-  return (
-    <div>
-      div
-    </div>
-  );
-}
+export const App = () => (
+  <OutletContainer>
+    <Outlet />
+  </OutletContainer>
+);
 
-export default App;

@@ -5,6 +5,6 @@
     "jsx": "react",
     "esModuleInterop": true
   },
-  "include": ["src/**/*.tsx", "src/index.tsx"],
+  "include": ["src/**/*.tsx", "src/index.tsx", "src/types/SortType.ts"],
   "exclude": ["node_modules"]
 }
