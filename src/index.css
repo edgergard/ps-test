@@ -6,8 +6,3 @@ body {
   font-family: 'Inter', sans-serif;
   overflow-y: scroll;
 }
-
-main {
-  max-width: 100vw;
-  overflow-x: hidden;
-}
