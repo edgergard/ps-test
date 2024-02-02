@@ -5,6 +5,7 @@ import { SortType, User } from '../types';
 import { getUsers } from '../api/api';
 import { compareQuery } from '../utils';
 import { useSearchParams } from 'react-router-dom';
+import classnames from 'classnames';
 
 function getPreparedUsers(users: User[], query: string, sort: SortType) {
   let preparedUsers = [...users];
@@ -15,6 +16,7 @@ function getPreparedUsers(users: User[], query: string, sort: SortType) {
         preparedUsers = preparedUsers.sort((a, b) => {
           return b.username.localeCompare(a.username);
         });
+
         break;
       };
 
@@ -22,6 +24,7 @@ function getPreparedUsers(users: User[], query: string, sort: SortType) {
         preparedUsers = preparedUsers.sort((a, b) => {
           return a.username.localeCompare(b.username);
         });
+
         break;
       };
 
@@ -44,6 +47,7 @@ export const UsersPage = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isInputFocused, setIsInputFocused] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const sort = (searchParams.get('sort') || '');
@@ -63,6 +67,14 @@ export const UsersPage = () => {
   }, []);
   
   const preparedUsers = getPreparedUsers(users, query, sort as SortType);
+
+  const handleInputFocus = () => {
+    setIsInputFocused(true);
+  };
+
+  const handleInputBlur = () => {
+    setIsInputFocused(false);
+  };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const params = new URLSearchParams(searchParams);
@@ -141,24 +153,26 @@ export const UsersPage = () => {
         <>
           <div className="flex items-center gap-x-8 mb-4 md:mb-10">
             <div
-              className="
-                flex
-                rounded h-10 w-96 px-2 py-2 focus:outline focus:outline-2
-                focus:outline-violet-800 bg-slate-50"
+              className={classnames(
+                'flex rounded-lg h-10 w-96 px-2 py-2 bg-slate-50', {
+                'outline outline-2 outline-violet-800': isInputFocused,
+              })}
             >
-            <input
-              type="text"
-              value={query}
-              onChange={handleInputChange}
-              placeholder="Enter username"
-              className="outline-none w-full bg-slate-50"
-            />
-          
-            {query && (
-              <button onClick={handleInputClear}>
-                <XMarkIcon className="w-6 h-6 text-slate-950" />
-              </button>
-            )}
+              <input
+                type="text"
+                value={query}
+                onChange={handleInputChange}
+                onFocus={handleInputFocus}
+                onBlur={handleInputBlur}
+                placeholder="Enter username"
+                className="outline-none w-full bg-slate-50"
+              />
+            
+              {query && (
+                <button onClick={handleInputClear}>
+                  <XMarkIcon className="w-6 h-6 text-slate-950" />
+                </button>
+              )}
             </div>
 
             <button
